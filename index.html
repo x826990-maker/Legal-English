@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#3c6252" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="法律英语" />
+    <title>Legal Lexicon · 法律英语词汇本</title>
+    <link rel="manifest" href="manifest.webmanifest" />
+    <link rel="apple-touch-icon" href="icon.svg" />
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="mobile.css" />
+  </head>
+  <body>
+    <div class="noise"></div>
+    <div class="app-shell">
+      <header class="topbar">
+        <a class="brand" href="#dashboard" aria-label="返回仪表盘">
+          <span class="brand-mark">§</span>
+          <span><strong>LEGAL</strong><em>LEXICON</em></span>
+        </a>
+        <div class="today"><span class="dot"></span><span id="todayLabel"></span></div>
+      </header>
+
+      <nav class="sidebar" aria-label="主导航">
+        <button class="nav-item active" data-view="dashboard"><span>◇</span>总览</button>
+        <button class="nav-item" data-view="review"><span>↻</span>今日复习 <b id="dueBadge">0</b></button>
+        <button class="nav-item" data-view="collection"><span>⌘</span>生词收集</button>
+        <button class="nav-item" data-view="library"><span>▤</span>我的词库</button>
+        <div class="nav-rule"></div>
+        <button class="nav-item" data-view="guide"><span>?</span>复习说明</button>
+        <button class="nav-item" id="exportButton" data-export><span>↓</span>导出备份</button>
+        <label class="nav-item import-label"><span>↑</span>导入备份<input type="file" id="importInput" data-import accept="application/json" /></label>
+      </nav>
+
+      <nav class="mobile-nav" aria-label="手机主导航">
+        <button class="nav-item active" data-view="dashboard"><span>◇</span><small>总览</small></button>
+        <button class="nav-item" data-view="review"><span>↻</span><small>复习</small><b id="mobileDueBadge">0</b></button>
+        <button class="nav-item" data-view="collection"><span>＋</span><small>收集</small></button>
+        <button class="nav-item" data-view="library"><span>▤</span><small>词库</small></button>
+        <button class="nav-item" data-view="guide"><span>?</span><small>使用</small></button>
+      </nav>
+
+      <main>
+        <section class="view active" id="dashboard">
+          <div class="eyebrow">YOUR LEGAL ENGLISH DESK</div>
+          <div class="hero-row">
+            <div>
+              <h1>今天，先记住<br /><i>一个</i>法律英语词。</h1>
+              <p class="lede">不用追求一次记住。收集、回忆、间隔复习，让陌生词汇慢慢成为你的语言。</p>
+            </div>
+            <button class="ink-button" data-go="collection"><span>＋</span> 收集一个新词</button>
+          </div>
+          <div class="stats-grid">
+            <article class="stat-card"><span>词库总量</span><strong id="totalWords">0</strong><small>已收集的法律术语</small></article>
+            <article class="stat-card accent"><span>待复习</span><strong id="dueWords">0</strong><small id="dueMessage">今天没有待复习词</small></article>
+            <article class="stat-card"><span>已掌握</span><strong id="masteredWords">0</strong><small>累计正确 4 次以上</small></article>
+            <article class="stat-card"><span>今日完成</span><strong id="todayReviews">0</strong><small>每一次回忆都算进步</small></article>
+          </div>
+          <div class="dashboard-columns">
+            <section class="paper-card focus-card">
+              <div class="card-heading"><span>01 / 今日重点</span><button class="text-button" data-go="review">开始复习 →</button></div>
+              <div id="focusContent"></div>
+            </section>
+            <section class="paper-card progress-card">
+              <div class="card-heading"><span>本周节奏</span><span id="streakText">刚刚开始</span></div>
+              <div class="week-bars" id="weekBars"></div>
+              <p>建议每天用 5–10 分钟。短而持续，比一次性突击更有效。</p>
+            </section>
+          </div>
+        </section>
+
+        <section class="view" id="review">
+          <div class="page-heading"><div><div class="eyebrow">SPACED REPETITION</div><h2>今日复习</h2></div><span class="counter" id="reviewCounter">0 / 0</span></div>
+          <div id="reviewArea"></div>
+        </section>
+
+        <section class="view" id="collection">
+          <div class="page-heading"><div><div class="eyebrow">CAPTURE A WORD</div><h2>收集生词</h2></div></div>
+          <div class="collection-layout">
+            <form class="word-form paper-card" id="wordForm">
+              <div class="form-intro"><span class="form-number">01</span><div><h3>把刚遇到的词放进来</h3><p>先记下它，不必等到完全弄懂再开始。</p></div></div>
+              <label>英文术语 <span class="required">*</span><input required name="term" id="termInput" placeholder="e.g. tort" autocomplete="off" /></label>
+              <label>词性 / 类型<input name="partOfSpeech" placeholder="e.g. noun · 侵权法" /></label>
+              <label>中文释义 <span class="required">*</span><input required name="meaning" placeholder="e.g. 侵权行为；民事侵权" /></label>
+              <label>例句（可选）<textarea name="example" placeholder="e.g. The claimant brought an action in tort."></textarea></label>
+              <label>你的备注（可选）<textarea name="note" placeholder="联想、易混词、课本页码……"></textarea></label>
+              <button class="ink-button wide" type="submit">收入我的词库 <span>→</span></button>
+            </form>
+            <aside class="capture-tips">
+              <div class="tip-label">BEGINNER'S NOTE</div>
+              <h3>怎么记，才不会越背越累？</h3>
+              <ol>
+                <li><b>只收集真实遇到的词。</b>课本、案例、文章里碰到的词最值得先记。</li>
+                <li><b>释义写得具体一点。</b>例如写“原告（提起诉讼的一方）”，而不只写“原告”。</li>
+                <li><b>例句不必自己造。</b>复制看到的原句也很好，它会帮你记住用法。</li>
+              </ol>
+            </aside>
+          </div>
+        </section>
+
+        <section class="view" id="library">
+          <div class="page-heading library-heading"><div><div class="eyebrow">YOUR PERSONAL GLOSSARY</div><h2>我的词库</h2></div><button class="ink-button compact" data-go="collection">＋ 新词</button></div>
+          <div class="library-toolbar"><div class="search-box">⌕<input id="searchInput" placeholder="搜索英文、中文或备注" /></div><select id="statusFilter"><option value="all">全部状态</option><option value="new">尚未复习</option><option value="learning">学习中</option><option value="mastered">已掌握</option></select></div>
+          <div class="word-list" id="wordList"></div>
+        </section>
+
+        <section class="view" id="guide">
+          <div class="page-heading"><div><div class="eyebrow">A GENTLE SYSTEM</div><h2>复习说明</h2></div></div>
+          <div class="guide-grid">
+            <article class="paper-card guide-card"><span>01</span><h3>先回忆，再看答案</h3><p>看到英文时，先在脑中尝试说出意思。费力回忆本身，就是学习发生的地方。</p></article>
+            <article class="paper-card guide-card"><span>02</span><h3>如实选择熟悉程度</h3><p>“忘记了”会让它明天再出现；“模糊”安排在 3 天后；“记得”则延长到下一次复习。</p></article>
+            <article class="paper-card guide-card"><span>03</span><h3>让系统替你记时间</h3><p>每次回答后，程序会自动安排下次复习。你只需要打开它，完成当天待复习的卡片。</p></article>
+          </div>
+          <div class="interval-table paper-card"><div><b>忘记了</b><span>明天复习</span></div><div><b>有点模糊</b><span>3 天后复习</span></div><div><b>记得很清楚</b><span>7 天后起，逐步拉长</span></div></div>
+          <section class="phone-guide paper-card">
+            <div><div class="tip-label">PHONE & OFFLINE</div><h3>带在身边，也能离线复习</h3><p>将本程序部署到一个 HTTPS 网页地址后，用手机浏览器“添加到主屏幕”。第一次打开后，词库和程序都会缓存在手机内；之后即使没有网络，也能正常背词。</p></div>
+            <div class="phone-guide-actions"><button class="ink-button compact" data-export>↓ 导出词库备份</button><label class="ink-button compact import-guide">↑ 导入词库备份<input type="file" data-import accept="application/json" /></label></div>
+          </section>
+        </section>
+      </main>
+    </div>
+    <div class="toast" id="toast" role="status"></div>
+    <script src="app.js"></script>
+    <script>
+      if ('serviceWorker' in navigator && location.protocol !== 'file:') {
+        window.addEventListener('load', () => navigator.serviceWorker.register('./service-worker.js'));
+      }
+    </script>
+  </body>
+</html>
