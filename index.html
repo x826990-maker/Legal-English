@@ -12,6 +12,7 @@
     <link rel="apple-touch-icon" href="icon.svg" />
     <link rel="stylesheet" href="styles.css" />
     <link rel="stylesheet" href="mobile.css" />
+    <link rel="stylesheet" href="ipad.css" />
   </head>
   <body>
     <div class="noise"></div>
@@ -83,9 +84,13 @@
             <form class="word-form paper-card" id="wordForm">
               <div class="form-intro"><span class="form-number">01</span><div><h3>把刚遇到的词放进来</h3><p>先记下它，不必等到完全弄懂再开始。</p></div></div>
               <label>英文术语 <span class="required">*</span><input required name="term" id="termInput" placeholder="e.g. tort" autocomplete="off" /></label>
+              <label>IPA 音标（可选）<input name="phonetic" placeholder="e.g. /tɔːrt/" autocomplete="off" /></label>
+              <p class="form-hint">留空时会在联网状态自动查询 IPA；若离线或未查到，请填写音标后再保存，以保证每个词都有准确读音。</p>
               <label>词性 / 类型<input name="partOfSpeech" placeholder="e.g. noun · 侵权法" /></label>
               <label>中文释义 <span class="required">*</span><input required name="meaning" placeholder="e.g. 侵权行为；民事侵权" /></label>
               <label>例句（可选）<textarea name="example" placeholder="e.g. The claimant brought an action in tort."></textarea></label>
+              <label>同义词 / 近义表达（可选）<input name="synonyms" placeholder="e.g. lawsuit · legal action" /></label>
+              <label>用法提示（可选）<textarea name="usage" placeholder="写下适用场景、搭配或容易混淆的词……"></textarea></label>
               <label>你的备注（可选）<textarea name="note" placeholder="联想、易混词、课本页码……"></textarea></label>
               <button class="ink-button wide" type="submit">收入我的词库 <span>→</span></button>
             </form>
@@ -118,6 +123,10 @@
           <section class="phone-guide paper-card">
             <div><div class="tip-label">PHONE & OFFLINE</div><h3>带在身边，也能离线复习</h3><p>将本程序部署到一个 HTTPS 网页地址后，用手机浏览器“添加到主屏幕”。第一次打开后，词库和程序都会缓存在手机内；之后即使没有网络，也能正常背词。</p></div>
             <div class="phone-guide-actions"><button class="ink-button compact" data-export>↓ 导出词库备份</button><label class="ink-button compact import-guide">↑ 导入词库备份<input type="file" data-import accept="application/json" /></label></div>
+          </section>
+          <section class="voice-guide paper-card">
+            <div><div class="tip-label">FEMALE ENGLISH VOICE</div><h3>女声朗读设置</h3><p>选择设备已安装的英语女声。所有词条都会使用该女声朗读；设置会保存在当前设备中。</p></div>
+            <label class="voice-picker">英语女声<select id="voiceSelect" aria-describedby="voiceStatus"><option>正在读取设备语音…</option></select><small id="voiceStatus"></small></label>
           </section>
         </section>
       </main>

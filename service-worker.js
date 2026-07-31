@@ -1,9 +1,10 @@
-const CACHE_NAME = 'legal-lexicon-offline-v3';
+const CACHE_NAME = 'legal-lexicon-offline-v6';
 const APP_FILES = [
   './',
   './index.html',
   './styles.css',
   './mobile.css',
+  './ipad.css',
   './app.js',
   './manifest.webmanifest',
   './icon.svg'
